@@ -43,7 +43,7 @@ namespace SmsService.IntegrationTests
 
             // Assert
             Assert.IsNotNull(createdResult);
-            Assert.AreEqual("Messages", createdResult.RouteName);
+            Assert.IsNotNull(createdResult.Content.Sms);
             Assert.AreEqual(messageId, createdResult.RouteValues["id"]);
         }
     }

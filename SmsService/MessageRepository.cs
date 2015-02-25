@@ -2,6 +2,7 @@
 using System.Linq;
 using Sms.Data;
 using SmsService.Models;
+using SmsService.Utilities;
 
 namespace SmsService
 {
@@ -25,6 +26,7 @@ namespace SmsService
         public MessageResponse Insert(MessageRequest request)
         {
             var entityToSave = _messageMapper.Parse(request);
+            entityToSave.Sms = RandomNumberGenerator.GetRandom(6, 7).ToString("D6");
             Insert(entityToSave);
             return _messageMapper.Map(entityToSave);
         }
