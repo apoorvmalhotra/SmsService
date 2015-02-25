@@ -1,23 +1,34 @@
-﻿using Sms.Data;
+﻿using System.IO;
+using Sms.Data;
 
 namespace SmsService.Models
 {
-    public class ModelFactory
+    public interface IMessageMapper
+    {
+        Message Parse(MessageContract model);
+        MessageContract Map(Message entity);
+        Message Insert(MessageContract message);
+    }
+
+    public class MessageMapper : IMessageMapper
     {
         private readonly IMessageRepository _messageRepository;
-        public ModelFactory(IMessageRepository messageRepository)
+        public MessageMapper(IMessageRepository messageRepository)
         {
             _messageRepository = messageRepository;
         }
 
         public Message Parse(MessageContract model)
         {
+            if(!model.MessageId.HasValue)
+                throw new InvalidDataException("Message Id cannot be null");
+
             var message = new Message
             {
                 MessageId = model.MessageId.Value,
                 ReceiverPhone = model.ReceiverPhoneNumber,
                 Sms = model.Sms,
-                Status = "Created"
+                Status = model.Status ?? "Created"
             };
             return message;
         }

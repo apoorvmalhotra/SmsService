@@ -19,6 +19,7 @@ namespace Sms.Data
         public System.Guid MessageId { get; set; }
         public string ReceiverPhone { get; set; }
         public string Sms { get; set; }
+        public Nullable<System.DateTime> VerificationTime { get; set; }
         public string Status { get; set; }
     }
 }

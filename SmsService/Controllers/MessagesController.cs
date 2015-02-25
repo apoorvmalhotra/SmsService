@@ -5,19 +5,17 @@ using SmsService.Models;
 
 namespace SmsService.Controllers
 {
-    public class MessagesController : ApiController
+    public class MessagesController : BaseController<MessageContract, IMessageRepository>
     {
-        private readonly IMessageRepository _repository;
-        private ModelFactory _modelFactory;
+        private IMessageMapper _messageMapper;
 
-        public MessagesController(IMessageRepository repository)
+        public MessagesController(IMessageRepository repository): base(repository)
         {
-            _repository = repository;
         }
 
-        protected ModelFactory ModelFactory
+        protected IMessageMapper MessageMapper
         {
-            get { return _modelFactory ?? (_modelFactory = new ModelFactory(_repository)); }
+            get { return _messageMapper ?? (_messageMapper = new MessageMapper(Repository)); }
         }
 
         [HttpPost]
@@ -27,15 +25,15 @@ namespace SmsService.Controllers
                 return BadRequest("Message Id or Receiver phone number cannot be null");
 
 
-            var insertedEntity = ModelFactory.Insert(message);
-            var messageModel = ModelFactory.Map(insertedEntity);
+            var insertedEntity = MessageMapper.Insert(message);
+            var messageModel = MessageMapper.Map(insertedEntity);
             return CreatedAtRoute("Messages", new {id = messageModel.MessageId}, messageModel);
         }
 
         [HttpGet]
         public IHttpActionResult GetMessage(Guid id)
         {
-            var result = _repository.GetMessageByMessageId(id);
+            var result = Repository.GetMessageByMessageId(id);
             if (result == null)
                 return NotFound();
 

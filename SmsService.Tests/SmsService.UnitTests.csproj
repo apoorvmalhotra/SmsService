@@ -114,6 +114,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MessagesControllerTests.cs" />
+    <Compile Include="Controllers\MessageVerificationControllerTests.cs" />
+    <Compile Include="Models\MessageMapperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

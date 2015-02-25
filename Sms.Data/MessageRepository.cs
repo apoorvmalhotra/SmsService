@@ -19,19 +19,26 @@ namespace Sms.Data
             return entity;
         }
 
-        public bool Update(Message originalEntity, Message updatedEntity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Message GetMessageByMessageId(Guid messageId)
         {
             return _context.Messages.FirstOrDefault(m => m.MessageId == messageId);
+        }
+
+        public SmsStatus VerifySms(Guid messageId, string sms)
+        {
+            var message = _context.Messages.FirstOrDefault(m => m.MessageId == messageId);
+            if (message == null) return SmsStatus.NotFound;
+
+            if (message.Sms == sms)
+            {
+                message.VerificationTime = DateTime.Now;
+                message.Status = "Verified";
+                _context.Messages.Attach(message);
+                _context.SaveChanges();
+                return SmsStatus.Success;
+            }
+
+            return SmsStatus.InvalidSmsCode;
         }
     }
 }

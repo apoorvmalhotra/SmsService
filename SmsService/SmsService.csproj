@@ -111,14 +111,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\BaseApiController.cs" />
-    <Compile Include="Controllers\EntityFormat.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\MessageVerificationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\MessageContract.cs" />
-    <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\MessageMapper.cs" />
+    <Compile Include="Models\Verification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

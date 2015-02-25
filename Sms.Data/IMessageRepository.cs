@@ -6,5 +6,7 @@ namespace Sms.Data
     {
         Message Insert(Message model);
         Message GetMessageByMessageId(Guid messageId);
+
+        SmsStatus VerifySms(Guid messageId, string sms);
     }
 }

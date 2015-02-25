@@ -12,8 +12,8 @@ namespace Sms.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
-    public partial class MessageHandlerEntities : DbContext, IMessageHandlerEntities
+    
+    public partial class MessageHandlerEntities : DbContext
     {
         public MessageHandlerEntities()
             : base("name=MessageHandlerEntities")

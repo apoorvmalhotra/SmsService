@@ -14,6 +14,7 @@
           <Property Name="MessageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ReceiverPhone" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Sms" Type="nvarchar" MaxLength="255" />
+          <Property Name="VerificationTime" Type="datetime" />
           <Property Name="Status" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityContainer Name="MessageHandlerModelStoreContainer">
@@ -33,6 +34,7 @@
           <Property Name="MessageId" Type="Guid" Nullable="false" />
           <Property Name="ReceiverPhone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Sms" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="VerificationTime" Type="DateTime" Precision="3" />
           <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityContainer Name="MessageHandlerEntities" annotation:LazyLoadingEnabled="true">
@@ -52,6 +54,7 @@
                 <ScalarProperty Name="MessageId" ColumnName="MessageId" />
                 <ScalarProperty Name="ReceiverPhone" ColumnName="ReceiverPhone" />
                 <ScalarProperty Name="Sms" ColumnName="Sms" />
+                <ScalarProperty Name="VerificationTime" ColumnName="VerificationTime" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
