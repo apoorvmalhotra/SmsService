@@ -17,7 +17,7 @@ namespace SmsService.Controllers
 
         protected ModelFactory ModelFactory
         {
-            get { return _modelFactory ?? (_modelFactory = new ModelFactory(Request, _repository)); }
+            get { return _modelFactory ?? (_modelFactory = new ModelFactory(_repository)); }
         }
 
         [HttpPost]

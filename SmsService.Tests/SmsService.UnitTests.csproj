@@ -9,7 +9,7 @@
     <ProjectGuid>{CC58060E-BA4D-4283-BD59-13F4BD6108A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmsService.Tests</RootNamespace>
+    <RootNamespace>SmsService.UnitTests</RootNamespace>
     <AssemblyName>SmsService.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

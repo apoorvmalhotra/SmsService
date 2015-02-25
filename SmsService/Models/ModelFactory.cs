@@ -1,16 +1,12 @@
-﻿using System.Net.Http;
-using System.Web.Http.Routing;
-using Sms.Data;
+﻿using Sms.Data;
 
 namespace SmsService.Models
 {
     public class ModelFactory
     {
-        private readonly UrlHelper _urlHelper;
-        private IMessageRepository _messageRepository;
-        public ModelFactory(HttpRequestMessage request, IMessageRepository messageRepository)
+        private readonly IMessageRepository _messageRepository;
+        public ModelFactory(IMessageRepository messageRepository)
         {
-            _urlHelper = new UrlHelper(request);
             _messageRepository = messageRepository;
         }
 
@@ -34,7 +30,6 @@ namespace SmsService.Models
                 ReceiverPhoneNumber = entity.ReceiverPhone,
                 Sms = entity.Sms,
                 Status = entity.Status,
-//                Url = _urlHelper.Link("Message", new { controller = "Messages", id = entity.Id } )
             };
             return message;
         }
@@ -42,8 +37,7 @@ namespace SmsService.Models
         public Message Insert(MessageContract message)
         {
             var entity = Parse(message);
-            _messageRepository.Insert(entity);
-            return entity;
+            return _messageRepository.Insert(entity);
         }
     }
 }

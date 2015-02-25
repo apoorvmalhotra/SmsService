@@ -2,12 +2,13 @@
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
+using NSubstitute;
 using NUnit.Framework;
 using Sms.Data;
 using SmsService.Controllers;
 using SmsService.Models;
 
-namespace SmsService.Tests.Controllers
+namespace SmsService.UnitTests.Controllers
 {
     public class MessagesControllerTests
     {
@@ -17,14 +18,7 @@ namespace SmsService.Tests.Controllers
         [SetUp]
         public void SetUp()
         {
-            _repository = new MessageRepository(new MessageHandlerEntities());
-            _controller = new MessagesController(_repository);
-        }
-
-        [Test]
-        public void PostSetsLocationHeader()
-        {
-            
+            _repository = Substitute.For<IMessageRepository>();
             _controller = new MessagesController(_repository)
             {
                 Configuration = new HttpConfiguration(),
@@ -34,9 +28,15 @@ namespace SmsService.Tests.Controllers
                     Method = HttpMethod.Post
                 }
             };
+        }
 
+        [Test]
+        public void PostSetsLocationHeader()
+        {
+            // Arrange
             var messageId = Guid.NewGuid();
             var message = new MessageContract {MessageId = messageId, ReceiverPhoneNumber = "0412345678"};
+            _repository.Insert(Arg.Any<Message>()).ReturnsForAnyArgs(new Message { MessageId = messageId, ReceiverPhone = "0412345678" });
 
             // Act
             var response = _controller.Post(message);
@@ -51,16 +51,7 @@ namespace SmsService.Tests.Controllers
         [Test]
         public void Post_WhenTheContractIsIncomplete_ReturnsBadRequest()
         {
-            _controller = new MessagesController(_repository)
-            {
-                Configuration = new HttpConfiguration(),
-                Request = new HttpRequestMessage
-                {
-                    RequestUri = new Uri("http://localhost/api/messages"),
-                    Method = HttpMethod.Post
-                }
-            };
-
+            // Arrange
             var message = new MessageContract { ReceiverPhoneNumber = "0412345678", Sms = "123456" };
 
             // Act
@@ -74,8 +65,12 @@ namespace SmsService.Tests.Controllers
         [Test]
         public void Get_WhenAMessageIsFound_ReturnsOkResult()
         {
+            // Arrange
+            var messageId = Guid.NewGuid();
+            _repository.GetMessageByMessageId(messageId).Returns(new Message { MessageId = messageId, ReceiverPhone = "0412345678" });
+
             // Action
-            IHttpActionResult actionResult = _controller.GetMessage(Guid.Parse("34245B04-F370-4787-8748-0FE7A9D39D38"));
+            IHttpActionResult actionResult = _controller.GetMessage(messageId);
             var conNegResult = actionResult as OkNegotiatedContentResult<Message>;
 
             // Assert

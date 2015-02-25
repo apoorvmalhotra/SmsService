@@ -12,11 +12,11 @@ namespace Sms.Data
             _context = context;
         }
 
-        public bool Insert(Message entity)
+        public Message Insert(Message entity)
         {
             _context.Messages.Add(entity);
             _context.SaveChanges();
-            return true;
+            return entity;
         }
 
         public bool Update(Message originalEntity, Message updatedEntity)
