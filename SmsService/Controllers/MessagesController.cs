@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using Sms.Data;
 using SmsService.Models;
 
@@ -16,28 +17,30 @@ namespace SmsService.Controllers
 
         protected ModelFactory ModelFactory
         {
-            get
-            {
-                if (_modelFactory == null)
-                {
-                    _modelFactory = new ModelFactory(Request, _repository);
-                }
-                return _modelFactory;
-            }
+            get { return _modelFactory ?? (_modelFactory = new ModelFactory(Request, _repository)); }
         }
 
         [HttpPost]
         public virtual IHttpActionResult Post([FromBody] MessageContract message)
         {
-            if (ModelState.IsValid)
-            {
-                var insertedEntity = ModelFactory.Insert(message);
-                var messageModel = ModelFactory.Map(insertedEntity);
-                var t = CreatedAtRoute("Messages", new {id = messageModel.MessageId}, messageModel);
-                return t;
-            }
-            return null;
+            if ((message.MessageId == null) || (message.ReceiverPhoneNumber == null))
+                return BadRequest("Message Id or Receiver phone number cannot be null");
+
+
+            var insertedEntity = ModelFactory.Insert(message);
+            var messageModel = ModelFactory.Map(insertedEntity);
+            return CreatedAtRoute("Messages", new {id = messageModel.MessageId}, messageModel);
         }
-        
+
+        [HttpGet]
+        public IHttpActionResult GetMessage(Guid id)
+        {
+            var result = _repository.GetMessageByMessageId(id);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
     }
 }

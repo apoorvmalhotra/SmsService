@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Sms.Data
 {
@@ -30,7 +31,7 @@ namespace Sms.Data
 
         public Message GetMessageByMessageId(Guid messageId)
         {
-            throw new NotImplementedException();
+            return _context.Messages.FirstOrDefault(m => m.MessageId == messageId);
         }
     }
 }
