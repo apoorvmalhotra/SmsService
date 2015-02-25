@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sms.Data", "Sms.Data\Sms.Da
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B161A1BF-B6A2-40A3-BECC-9FE0D3064CBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmsService.IntegrationTests", "Tests\SmsService.IntegrationTests\SmsService.IntegrationTests.csproj", "{B94067E9-C6A3-4B4F-B902-59B7C515D077}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,11 +37,16 @@ Global
 		{E931F29A-9951-4267-82CD-6B64252AE4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E931F29A-9951-4267-82CD-6B64252AE4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E931F29A-9951-4267-82CD-6B64252AE4A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B94067E9-C6A3-4B4F-B902-59B7C515D077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B94067E9-C6A3-4B4F-B902-59B7C515D077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B94067E9-C6A3-4B4F-B902-59B7C515D077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B94067E9-C6A3-4B4F-B902-59B7C515D077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CC58060E-BA4D-4283-BD59-13F4BD6108A8} = {B161A1BF-B6A2-40A3-BECC-9FE0D3064CBD}
+		{B94067E9-C6A3-4B4F-B902-59B7C515D077} = {B161A1BF-B6A2-40A3-BECC-9FE0D3064CBD}
 	EndGlobalSection
 EndGlobal
