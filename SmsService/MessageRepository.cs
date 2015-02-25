@@ -1,27 +1,38 @@
 ﻿using System;
 using System.Linq;
+using Sms.Data;
+using SmsService.Models;
 
-namespace Sms.Data
+namespace SmsService
 {
     public class MessageRepository : IMessageRepository
     {
         private readonly IMessageHandlerEntities _context;
+        private readonly IMessageMapper _messageMapper;
 
-        public MessageRepository(IMessageHandlerEntities context)
+        public MessageRepository(IMessageHandlerEntities context, IMessageMapper mapper)
         {
             _context = context;
+            _messageMapper = mapper;
         }
 
-        public Message Insert(Message entity)
+        private void Insert(Message entity)
         {
             _context.Messages.Add(entity);
             _context.SaveChanges();
-            return entity;
         }
 
-        public Message GetMessageByMessageId(Guid messageId)
+        public MessageResponse Insert(MessageRequest request)
         {
-            return _context.Messages.FirstOrDefault(m => m.MessageId == messageId);
+            var entityToSave = _messageMapper.Parse(request);
+            Insert(entityToSave);
+            return _messageMapper.Map(entityToSave);
+        }
+
+        public MessageResponse GetMessageByMessageId(Guid messageId)
+        {
+            var message = _context.Messages.FirstOrDefault(m => m.MessageId == messageId);
+            return (message == null) ? null : _messageMapper.Map(message);
         }
 
         public SmsStatus VerifySms(Guid messageId, string sms)

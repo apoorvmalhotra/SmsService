@@ -18,7 +18,7 @@ namespace SmsService.IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            _repository = new MessageRepository(new MessageHandlerEntities());
+            _repository = new MessageRepository(new MessageHandlerEntities(), new MessageMapper());
             _controller = new MessagesController(_repository)
             {
                 Configuration = new HttpConfiguration(),
@@ -35,11 +35,11 @@ namespace SmsService.IntegrationTests
         {
             // Arrange
             var messageId = Guid.NewGuid();
-            var message = new MessageContract { MessageId = messageId, ReceiverPhoneNumber = "0412345678" };
+            var message = new MessageRequest { MessageId = messageId, ReceiverPhoneNumber = "0412345678" };
 
             // Act
             var response = _controller.Post(message);
-            var createdResult = response as CreatedAtRouteNegotiatedContentResult<MessageContract>;
+            var createdResult = response as CreatedAtRouteNegotiatedContentResult<MessageResponse>;
 
             // Assert
             Assert.IsNotNull(createdResult);

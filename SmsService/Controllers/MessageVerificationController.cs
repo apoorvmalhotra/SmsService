@@ -9,15 +9,8 @@ namespace SmsService.Controllers
 {
     public class MessageVerificationController : BaseController<Verification, IMessageRepository>
     {
-        private IMessageMapper _messageMapper;
-
         public MessageVerificationController(IMessageRepository repo) : base(repo)
         {
-        }
-
-        protected IMessageMapper MessageMapper
-        {
-            get { return _messageMapper ?? (_messageMapper = new MessageMapper(Repository)); }
         }
 
         [HttpPost]
@@ -33,8 +26,7 @@ namespace SmsService.Controllers
             if (smsStatus == SmsStatus.InvalidSmsCode)
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Invalid Sms received"));
 
-            var entity = Repository.GetMessageByMessageId(messageVerification.MessageId);
-            var messageModel = MessageMapper.Map(entity);
+            var messageModel = Repository.GetMessageByMessageId(messageVerification.MessageId);
             return CreatedAtRoute("Messages", new { id = messageModel.MessageId }, messageModel);
         }
     }

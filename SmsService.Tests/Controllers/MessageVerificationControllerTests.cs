@@ -68,11 +68,11 @@ namespace SmsService.UnitTests.Controllers
             var messageId = Guid.NewGuid();
             var verification = new Verification { MessageId = messageId, SmsToVerify = "123" };
             _repository.VerifySms(Arg.Any<Guid>(), Arg.Any<string>()).ReturnsForAnyArgs(SmsStatus.Success);
-            _repository.GetMessageByMessageId(Arg.Any<Guid>()).ReturnsForAnyArgs(new Message { MessageId = messageId});
+            _repository.GetMessageByMessageId(Arg.Any<Guid>()).ReturnsForAnyArgs(new MessageResponse { MessageId = messageId});
 
             // Act
             var response = _controller.Post(verification);
-            var createdResult = response as CreatedAtRouteNegotiatedContentResult<MessageContract>;
+            var createdResult = response as CreatedAtRouteNegotiatedContentResult<MessageResponse>;
 
             // Assert
             Assert.IsNotNull(createdResult);

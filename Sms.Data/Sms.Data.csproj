@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMessageHandlerEntities.cs" />
-    <Compile Include="IMessageRepository.cs" />
     <Compile Include="Message.cs">
       <DependentUpon>MessageHandler.tt</DependentUpon>
     </Compile>
@@ -73,7 +72,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageHandler.edmx</DependentUpon>
     </Compile>
-    <Compile Include="MessageRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmsStatus.cs" />
   </ItemGroup>

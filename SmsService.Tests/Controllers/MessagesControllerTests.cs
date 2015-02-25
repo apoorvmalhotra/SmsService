@@ -35,12 +35,12 @@ namespace SmsService.UnitTests.Controllers
         {
             // Arrange
             var messageId = Guid.NewGuid();
-            var message = new MessageContract {MessageId = messageId, ReceiverPhoneNumber = "0412345678"};
-            _repository.Insert(Arg.Any<Message>()).ReturnsForAnyArgs(new Message { MessageId = messageId, ReceiverPhone = "0412345678" });
+            var message = new MessageRequest {MessageId = messageId, ReceiverPhoneNumber = "0412345678"};
+            _repository.Insert(Arg.Any<MessageRequest>()).ReturnsForAnyArgs(new MessageResponse { MessageId = messageId, ReceiverPhoneNumber = "0412345678" });
 
             // Act
             var response = _controller.Post(message);
-            var createdResult = response as CreatedAtRouteNegotiatedContentResult<MessageContract>;
+            var createdResult = response as CreatedAtRouteNegotiatedContentResult<MessageResponse>;
 
             // Assert
             Assert.IsNotNull(createdResult);
@@ -52,7 +52,7 @@ namespace SmsService.UnitTests.Controllers
         public void Post_WhenTheContractIsIncomplete_ReturnsBadRequest()
         {
             // Arrange
-            var message = new MessageContract { ReceiverPhoneNumber = "0412345678", Sms = "123456" };
+            var message = new MessageRequest { ReceiverPhoneNumber = "0412345678" };
 
             // Act
             var response = _controller.Post(message);
@@ -67,11 +67,11 @@ namespace SmsService.UnitTests.Controllers
         {
             // Arrange
             var messageId = Guid.NewGuid();
-            _repository.GetMessageByMessageId(messageId).Returns(new Message { MessageId = messageId, ReceiverPhone = "0412345678" });
+            _repository.GetMessageByMessageId(messageId).Returns(new MessageResponse { MessageId = messageId, ReceiverPhoneNumber = "0412345678" });
 
             // Action
             IHttpActionResult actionResult = _controller.GetMessage(messageId);
-            var conNegResult = actionResult as OkNegotiatedContentResult<Message>;
+            var conNegResult = actionResult as OkNegotiatedContentResult<MessageResponse>;
 
             // Assert
             Assert.IsNotNull(conNegResult.Content);
