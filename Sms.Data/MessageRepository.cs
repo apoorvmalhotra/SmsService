@@ -1,21 +1,21 @@
 ﻿using System;
 
-namespace Emails.Data
+namespace Sms.Data
 {
     public class MessageRepository : IMessageRepository
     {
-        private readonly MessageHandlerEntities _context;
+        private readonly IMessageHandlerEntities _context;
 
-        public MessageRepository(MessageHandlerEntities context)
+        public MessageRepository(IMessageHandlerEntities context)
         {
             _context = context;
         }
 
-        public Message Insert(Message entity)
+        public bool Insert(Message entity)
         {
             _context.Messages.Add(entity);
             _context.SaveChanges();
-            return entity;
+            return true;
         }
 
         public bool Update(Message originalEntity, Message updatedEntity)

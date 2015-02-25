@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Emails.Data
+namespace Sms.Data
 {
     using System;
     using System.Collections.Generic;

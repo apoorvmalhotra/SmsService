@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Emails.Data")]
+[assembly: AssemblyTitle("Sms.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MYOB Technology Pty. Ltd.")]
-[assembly: AssemblyProduct("Emails.Data")]
+[assembly: AssemblyProduct("Sms.Data")]
 [assembly: AssemblyCopyright("Copyright © MYOB Technology Pty. Ltd. 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -7,8 +7,8 @@
     <ProjectGuid>{E931F29A-9951-4267-82CD-6B64252AE4A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Emails.Data</RootNamespace>
-    <AssemblyName>Emails.Data</AssemblyName>
+    <RootNamespace>Sms.Data</RootNamespace>
+    <AssemblyName>Sms.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="SmsService">
+      <HintPath>..\SmsService\Bin\SmsService.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -50,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMessage.cs" />
+    <Compile Include="IMessageHandlerEntities.cs" />
     <Compile Include="IMessageRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Message.cs">

@@ -1,10 +1,11 @@
 ﻿using System;
+using SmsService.Models;
 
-namespace Emails.Data
+namespace Sms.Data
 {
     public interface IMessageRepository
     {
-        Message Insert(Message model);
+        bool Insert(Message model);
         bool Update(Message originalEntity, Message updatedEntity);
         bool Delete(int id);
 

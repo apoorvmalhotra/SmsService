@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 using System.Web.Http.Routing;
-using Emails.Data;
 using EmailService.Controllers;
-using EmailService.Models;
 using NSubstitute;
 using NUnit.Framework;
+using Sms.Data;
+using SmsService.Controllers;
+using SmsService.Models;
 
-namespace EmailService.Tests.Controllers
+namespace SmsService.Tests.Controllers
 {
     public class MessagesControllerTests
     {
@@ -18,32 +20,57 @@ namespace EmailService.Tests.Controllers
         [SetUp]
         public void SetUp()
         {
-            _repository = Substitute.For<IMessageRepository>();
+            _repository = new MessageRepository(new MessageHandlerEntities());
             _controller = new MessagesController(_repository);
         }
 
         [Test]
-        public void PostSetsLocationHeader_MockVersion()
+        public void PostSetsLocationHeader()
         {
-            _controller.Request = new HttpRequestMessage();
-            _controller.Configuration = new HttpConfiguration();
-            const string locationUrl = "http://location/";
-
             
-            var mockUrlHelper = Substitute.For<UrlHelper>(_controller.Request);
-//            mockUrlHelper.Link(string.Empty, new object()).ReturnsForAnyArgs(locationUrl);
-            _controller.Url = mockUrlHelper;
+            _controller = new MessagesController(_repository)
+            {
+                Configuration = new HttpConfiguration(),
+                Request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri("http://localhost/api/messages"),
+                    Method = HttpMethod.Post
+                }
+            };
 
-             MessageModel message = new MessageModel {MessageId = Guid.NewGuid()};
-            var msg = Substitute.For<Message>();
-            _repository.Insert(msg).ReturnsForAnyArgs()
+            var messageId = Guid.NewGuid();
+            var message = new MessageContract {MessageId = messageId, ReceiverPhoneNumber = "0412345678"};
 
             // Act
-           
+            var response = _controller.Post(message);
+            var createdResult = response as CreatedAtRouteNegotiatedContentResult<MessageContract>;
+
+            // Assert
+            Assert.IsNotNull(createdResult);
+            Assert.AreEqual("Messages", createdResult.RouteName);
+            Assert.AreEqual(messageId, createdResult.RouteValues["id"]);
+        }
+
+        [Test]
+        public void Post_WhenTheContractIsIncomplete_ReturnsBadRequest()
+        {
+            _controller = new MessagesController(_repository)
+            {
+                Configuration = new HttpConfiguration(),
+                Request = new HttpRequestMessage
+                {
+                    RequestUri = new Uri("http://localhost/api/messages"),
+                    Method = HttpMethod.Post
+                }
+            };
+
+            var message = new MessageContract { ReceiverPhoneNumber = "0412345678", Sms = "123456" };
+
+            // Act
             var response = _controller.Post(message);
 
             // Assert
-            Assert.AreEqual(locationUrl, response.Headers.Location.AbsoluteUri);
+            Assert.IsNotNull(response);
 
         }
     }

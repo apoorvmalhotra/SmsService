@@ -1,15 +1,10 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Emails.Data;
-using EmailService.Models;
-using EmailService.Utilities;
+﻿using System.Web.Http;
+using Sms.Data;
+using SmsService.Models;
 
-namespace EmailService.Controllers
+namespace SmsService.Controllers
 {
-    public class MessagesController : BaseApiController
+    public class MessagesController : ApiController
     {
         private readonly IMessageRepository _repository;
         private ModelFactory _modelFactory;
@@ -32,29 +27,16 @@ namespace EmailService.Controllers
         }
 
         [HttpPost]
-        public virtual HttpResponseMessage Post(MessageModel message)
+        public virtual IHttpActionResult Post([FromBody] MessageContract message)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var entity = ModelFactory.Parse(message);
-
-//                if (entity == null) Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read the message");
-
-                var insertedEntity = _repository.Insert(entity);
-                if (insertedEntity != null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.OK, ModelFactory.Map(insertedEntity));
-                }
-                else
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not save to the database.");
-                }
+                var insertedEntity = ModelFactory.Insert(message);
+                var messageModel = ModelFactory.Map(insertedEntity);
+                var t = CreatedAtRoute("Messages", new {id = messageModel.MessageId}, messageModel);
+                return t;
             }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
-            }
-
+            return null;
         }
         
     }

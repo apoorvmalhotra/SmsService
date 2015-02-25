@@ -1,4 +1,4 @@
-﻿namespace Emails.Data
+﻿namespace Sms.Data
 {
     public interface IRepository
     {

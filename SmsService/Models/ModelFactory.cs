@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Web.Http.Routing;
-using Emails.Data;
+using Sms.Data;
 
-namespace EmailService.Models
+namespace SmsService.Models
 {
     public class ModelFactory
     {
@@ -14,30 +14,36 @@ namespace EmailService.Models
             _messageRepository = messageRepository;
         }
 
-        public Message Parse(MessageModel model)
+        public Message Parse(MessageContract model)
         {
             var message = new Message
             {
-                MessageId = model.MessageId,
+                MessageId = model.MessageId.Value,
                 ReceiverPhone = model.ReceiverPhoneNumber,
                 Sms = model.Sms,
-                Status = model.Status
+                Status = "Created"
             };
             return message;
         }
 
-        public MessageModel Map(Message entity)
+        public MessageContract Map(Message entity)
         {
-            var message = new MessageModel
+            var message = new MessageContract
             {
                 MessageId = entity.MessageId,
                 ReceiverPhoneNumber = entity.ReceiverPhone,
                 Sms = entity.Sms,
                 Status = entity.Status,
-                Url = _urlHelper.Link("Message", new { controller = "Messages", id = entity.Id } )
+//                Url = _urlHelper.Link("Message", new { controller = "Messages", id = entity.Id } )
             };
             return message;
         }
 
+        public Message Insert(MessageContract message)
+        {
+            var entity = Parse(message);
+            _messageRepository.Insert(entity);
+            return entity;
+        }
     }
 }

@@ -7,8 +7,8 @@
     <ProjectGuid>{7F96C7B9-BC7B-4599-A032-59A4DCA8985C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EmailService.Utilities</RootNamespace>
-    <AssemblyName>EmailService.Utilities</AssemblyName>
+    <RootNamespace>SmsService.Utilities</RootNamespace>
+    <AssemblyName>SmsService.Utilities</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
